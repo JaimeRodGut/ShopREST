@@ -62,6 +62,13 @@ public class ArticleController {
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/articles/")
     public void deleteArticle(@PathVariable int id) {
-        articleDAO.delete(id);
+        Article articleFound = getArticleId(id);
+        if (articleFound == null) {
+            articleDAO.delete(id);
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+            );
+        }
     }
 }
